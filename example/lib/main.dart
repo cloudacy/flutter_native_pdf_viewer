@@ -49,7 +49,7 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
     return pdf;
   }
 
-  void submitForm() {
+  Future<void> submitForm() async {
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -57,6 +57,12 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
     setState(() {
       pdfFuture = downloadPDF(url: urlFieldController.text);
     });
+
+    if (Platform.isAndroid) {
+      final pdf = await pdfFuture;
+
+      FlutterNativePDFViewer.openPDF(path: pdf.path);
+    }
   }
 
   @override
@@ -112,7 +118,7 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
                 ),
               ),
             ),
-            if (pdfFuture != null)
+            if (pdfFuture != null && Platform.isIOS)
               Expanded(
                 child: FutureBuilder<File>(
                     future: pdfFuture,

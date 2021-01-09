@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class FlutterNativePDFViewer extends StatelessWidget {
+  static const MethodChannel _channel = const MethodChannel('flutter_native_pdf_viewer');
+
   // This is used in the platform side to register the view.
   final String viewType = 'flutter_native_pdf_viewer';
 
@@ -15,6 +17,12 @@ class FlutterNativePDFViewer extends StatelessWidget {
   }) : creationParams = <String, dynamic>{
           'path': pdfPath,
         };
+
+  static Future<bool> openPDF({
+    @required String path,
+  }) {
+    return _channel.invokeMethod('openPDF', {'path': path});
+  }
 
   @override
   Widget build(BuildContext context) {
