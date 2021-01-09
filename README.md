@@ -7,7 +7,7 @@ A lightweight PDF viewer for iOS and Android, using platform-native elements.
 
 Add `flutter_native_pdf_viewer: ^1.0.0` to the `dependencies` section of the `pubspec.yaml` file.
 
-### android
+### Android
 
 On Android devices, PDFs are opened with an external PDF viewer and therefore have to be "shared".
 To allow file-access to other apps, you have to add following FileProvider config:
