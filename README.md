@@ -5,7 +5,13 @@ A lightweight PDF viewer for iOS and Android, using platform-native elements.
 
 ## Installation
 
-Add `flutter_native_pdf_viewer: ^1.0.0` to the `dependencies` section of the `pubspec.yaml` file.
+Add
+
+```yaml
+flutter_native_pdf_viewer: ^1.0.0
+```
+
+to the `dependencies` section of the `pubspec.yaml` file.
 
 ### Android
 
@@ -15,15 +21,22 @@ To allow file-access to other apps, you have to add following FileProvider confi
 At `android/app/src/main/AndroidManifest.xml`, add
 
 ```xml
-<provider
-    android:name="androidx.core.content.FileProvider"
-    android:authorities="${applicationId}.provider"
-    android:exported="false"
-    android:grantUriPermissions="true">
-    <meta-data
-        android:name="android.support.FILE_PROVIDER_PATHS"
-        android:resource="@xml/provider_paths" />
-</provider>
+<manifest>
+    ...
+    <application>
+        ...
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+        ...
+    </application>
+</manifest>
 ```
 
 At `android/app/src/main/res/xml/provider_paths.xml`, add
