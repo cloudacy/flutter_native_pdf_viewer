@@ -121,26 +121,27 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
             if (pdfFuture != null && Platform.isIOS)
               Expanded(
                 child: FutureBuilder<File>(
-                    future: pdfFuture,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState != ConnectionState.done) {
-                        return Center(child: CircularProgressIndicator());
-                      }
+                  future: pdfFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState != ConnectionState.done) {
+                      return Center(child: CircularProgressIndicator());
+                    }
 
-                      if (snapshot.hasError) {
-                        return Text(snapshot.error);
-                      }
+                    if (snapshot.hasError) {
+                      return Text(snapshot.error);
+                    }
 
-                      if (!snapshot.hasData) {
-                        return Text('ERROR: No data received.');
-                      }
+                    if (!snapshot.hasData) {
+                      return Text('ERROR: No data received.');
+                    }
 
-                      final pdf = snapshot.data;
+                    final pdf = snapshot.data;
 
-                      return FlutterNativePDFViewer(
-                        pdfPath: pdf.path,
-                      );
-                    }),
+                    return FlutterNativePDFViewer(
+                      pdfPath: pdf.path,
+                    );
+                  },
+                ),
               ),
           ],
         ),
