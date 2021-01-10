@@ -138,7 +138,7 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
                     final pdf = snapshot.data;
 
                     return FlutterNativePDFViewer(
-                      pdfPath: pdf.path,
+                      path: pdf.path,
                     );
                   },
                 ),

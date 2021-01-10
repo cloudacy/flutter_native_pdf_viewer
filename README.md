@@ -38,7 +38,7 @@ class _ExampleWidgetState extends State<ExampleWidget> {
   Widget build(BuildContext context) {
     // iOS provides an in-App option, using PDFKit.
     if (Platform.isIOS) {
-      return FlutterNativePDFViewer(pdfPath: widget.pdf.path);
+      return FlutterNativePDFViewer(path: widget.pdf.path);
     } else {
       return Text('Not supported.');
     }

@@ -13,9 +13,9 @@ class FlutterNativePDFViewer extends StatelessWidget {
   final Map<String, dynamic> creationParams;
 
   FlutterNativePDFViewer({
-    @required String pdfPath,
+    @required String path,
   }) : creationParams = <String, dynamic>{
-          'path': pdfPath,
+          'path': path,
         };
 
   static Future<bool> openPDF({
