@@ -17,8 +17,8 @@ class FlutterNativePdfViewerApp extends StatefulWidget {
 class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController urlFieldController = TextEditingController();
-  Future<File> pdfFuture;
+  final urlFieldController = TextEditingController();
+  Future<File>? pdfFuture;
 
   @override
   void initState() {
@@ -26,15 +26,15 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
   }
 
   Future<File> downloadPDF({
-    @required String url,
+    required String url,
   }) async {
     // If URL is empty or null, replace with https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf.
-    if (url == null || url == '') {
+    if (url == '') {
       url = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
     }
 
     // Download pdf.
-    final res = await post(url);
+    final res = await post(Uri.parse(url));
     if (res.statusCode != 200) {
       throw Exception('Invalid response (${res.statusCode}): ${res.body}');
     }
@@ -50,7 +50,7 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
   }
 
   Future<void> submitForm() async {
-    if (!_formKey.currentState.validate()) {
+    if (!(_formKey.currentState?.validate() ?? false)) {
       return;
     }
 
@@ -60,8 +60,9 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
 
     if (Platform.isAndroid) {
       final pdf = await pdfFuture;
-
-      FlutterNativePDFViewer.openPDF(path: pdf.path);
+      if (pdf != null) {
+        FlutterNativePDFViewer.openPDF(path: pdf.path);
+      }
     }
   }
 
@@ -128,14 +129,14 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
                     }
 
                     if (snapshot.hasError) {
-                      return Text(snapshot.error);
+                      return Text(snapshot.error!.toString());
                     }
 
                     if (!snapshot.hasData) {
                       return Text('ERROR: No data received.');
                     }
 
-                    final pdf = snapshot.data;
+                    final pdf = snapshot.data!;
 
                     return FlutterNativePDFViewer(
                       path: pdf.path,
