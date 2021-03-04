@@ -14,7 +14,7 @@ class ExampleWidget extends StatefulWidget {
   final File pdf;
 
   ExampleWidget({
-    this.pdf,
+    required this.pdf,
   });
 
   @override
