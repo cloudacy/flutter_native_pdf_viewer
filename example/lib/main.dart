@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
@@ -18,14 +19,14 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
   final _formKey = GlobalKey<FormState>();
 
   final urlFieldController = TextEditingController();
-  Future<File>? pdfFuture;
+  Future<String>? pdfFuture;
 
   @override
   void initState() {
     super.initState();
   }
 
-  Future<File> downloadPDF({
+  Future<String> downloadPDF({
     required String url,
   }) async {
     // If URL is empty or null, replace with https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf.
@@ -46,7 +47,7 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
     final pdf = File(tmpDir.path + '/pdf.pdf');
     await pdf.writeAsBytes(res.bodyBytes);
 
-    return pdf;
+    return pdf.path;
   }
 
   Future<void> submitForm() async {
@@ -61,7 +62,7 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
     if (Platform.isAndroid) {
       final pdf = await pdfFuture;
       if (pdf != null) {
-        FlutterNativePDFViewer.openPDF(path: pdf.path);
+        FlutterNativePDFViewer.openPDF(path: pdf);
       }
     }
   }
@@ -115,13 +116,37 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
                               },
                             ),
                     ),
+                    SizedBox(height: 8),
+                    Text('OR'),
+                    SizedBox(height: 8),
+                    ElevatedButton(
+                      onPressed: () async {
+                        final result = await FilePicker.platform.pickFiles(
+                          type: FileType.custom,
+                          allowedExtensions: ['pdf'],
+                        );
+                        if (result == null) {
+                          return;
+                        }
+
+                        final filePath = result.files.single.path;
+                        if (filePath == null) {
+                          return;
+                        }
+
+                        setState(() {
+                          pdfFuture = Future.value(filePath);
+                        });
+                      },
+                      child: Text('Pick and view PDF'),
+                    ),
                   ],
                 ),
               ),
             ),
             if (pdfFuture != null && Platform.isIOS)
               Expanded(
-                child: FutureBuilder<File>(
+                child: FutureBuilder<String>(
                   future: pdfFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState != ConnectionState.done) {
@@ -139,7 +164,7 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
                     final pdf = snapshot.data!;
 
                     return FlutterNativePDFViewer(
-                      path: pdf.path,
+                      path: pdf,
                     );
                   },
                 ),
