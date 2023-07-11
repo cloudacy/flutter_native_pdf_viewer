@@ -2,7 +2,6 @@
 
 A lightweight PDF viewer for iOS (>= 11.0) and Android, using platform-native elements.
 
-
 ## Example
 
 ```dart
@@ -46,13 +45,12 @@ class _ExampleWidgetState extends State<ExampleWidget> {
 }
 ```
 
-
 ## Installation
 
 Add
 
 ```yaml
-flutter_native_pdf_viewer: ^2.0.0
+flutter_native_pdf_viewer: ^3.0.0
 ```
 
 to the `dependencies` section of the `pubspec.yaml` file.
