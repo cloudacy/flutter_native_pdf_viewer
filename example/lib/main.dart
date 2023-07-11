@@ -137,6 +137,13 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
                         setState(() {
                           pdfFuture = Future.value(filePath);
                         });
+
+                        if (Platform.isAndroid) {
+                          final pdf = await pdfFuture;
+                          if (pdf != null) {
+                            FlutterNativePDFViewer.openPDF(path: pdf);
+                          }
+                        }
                       },
                       child: Text('Pick and view PDF'),
                     ),
