@@ -1,6 +1,6 @@
 name: flutter_native_pdf_viewer
 description: A lightweight PDF viewer for iOS and Android, using platform-native elements.
-version: 4.0.0
+version: 5.0.0
 homepage: 'https://cloudacy.com/'
 
 environment:
