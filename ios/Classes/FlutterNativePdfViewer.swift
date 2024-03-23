@@ -2,7 +2,7 @@ import Flutter
 import UIKit
 import PDFKit
 
-class FLNativePDFViewerFactory: NSObject, FlutterPlatformViewFactory {
+class FlutterNativePdfViewerFactory: NSObject, FlutterPlatformViewFactory {
   private var messenger: FlutterBinaryMessenger
   
   init(messenger: FlutterBinaryMessenger) {
@@ -15,7 +15,7 @@ class FLNativePDFViewerFactory: NSObject, FlutterPlatformViewFactory {
     viewIdentifier viewId: Int64,
     arguments args: Any?
   ) -> FlutterPlatformView {
-    return FLNativePDFViewer(
+    return FlutterNativePdfViewer(
       frame: frame,
       viewIdentifier: viewId,
       arguments: args,
@@ -29,7 +29,7 @@ class FLNativePDFViewerFactory: NSObject, FlutterPlatformViewFactory {
   }
 }
 
-class FLNativePDFViewer: NSObject, FlutterPlatformView {
+class FlutterNativePdfViewer: NSObject, FlutterPlatformView {
   private var _view: UIView
   
   init(
@@ -51,30 +51,23 @@ class FLNativePDFViewer: NSObject, FlutterPlatformView {
   }
   
   func createView(view _view: UIView, frame: CGRect, args _args: Any?) -> UIView? {
-    if #available(iOS 11.0, *) {
-      guard let args = _args as? Dictionary<String, Any> else {
-        let label = UILabel()
-        label.text = "ERROR: Invalid or missing arguments provided to flutter_native_pdf_viewer widget: \(String(describing: _args))."
-        _view.addSubview(label)
-        return nil
-      }
-      
-      guard let pdfPath = args["path"] as? String else {
-        let label = UILabel()
-        label.text = "ERROR: Invalid or missing \"path\" argument provided to flutter_native_pdf_viewer widget: \(String(describing: _args))."
-        _view.addSubview(label)
-        return nil
-      }
-      
-      let pdfView = PDFView()
-      pdfView.document = PDFDocument(url: URL(fileURLWithPath: pdfPath))
-      pdfView.autoScales = true
-      return pdfView
-    } else {
+    guard let args = _args as? Dictionary<String, Any> else {
       let label = UILabel()
-      label.text = "flutter_native_pdf_viewer is not supported for iOS < 11.0"
+      label.text = "ERROR: Invalid or missing arguments provided to flutter_native_pdf_viewer widget: \(String(describing: _args))."
       _view.addSubview(label)
       return nil
     }
+    
+    guard let pdfPath = args["path"] as? String else {
+      let label = UILabel()
+      label.text = "ERROR: Invalid or missing \"path\" argument provided to flutter_native_pdf_viewer widget: \(String(describing: _args))."
+      _view.addSubview(label)
+      return nil
+    }
+    
+    let pdfView = PDFView()
+    pdfView.document = PDFDocument(url: URL(fileURLWithPath: pdfPath))
+    pdfView.autoScales = true
+    return pdfView
   }
 }

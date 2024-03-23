@@ -1,6 +1,6 @@
 # flutter_native_pdf_viewer
 
-A lightweight PDF viewer for iOS (>= 11.0) and Android, using platform-native elements.
+A lightweight PDF viewer for iOS (>= 12.0) and Android, using platform-native elements.
 
 ## Example
 
@@ -29,7 +29,7 @@ class _ExampleWidgetState extends State<ExampleWidget> {
     // The app must allow "share" access to the path of the given file.
     // See **Installation** section for more details.
     if (Platform.isAndroid) {
-      FlutterNativePDFViewer.openPDF(path: widget.pdf.path);
+      FlutterNativePdfViewer.openPdf(path: widget.pdf.path);
     }
   }
 
@@ -37,7 +37,7 @@ class _ExampleWidgetState extends State<ExampleWidget> {
   Widget build(BuildContext context) {
     // iOS provides an in-App option, using PDFKit.
     if (Platform.isIOS) {
-      return FlutterNativePDFViewer(path: widget.pdf.path);
+      return FlutterNativePdfViewer(path: widget.pdf.path);
     } else {
       return Text('Not supported.');
     }

@@ -3,7 +3,6 @@ package io.cloudacy.flutter_native_pdf_viewer
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.annotation.NonNull
 import androidx.core.content.FileProvider
 
@@ -26,14 +25,14 @@ class FlutterNativePdfViewerPlugin: FlutterPlugin, MethodCallHandler, ActivityAw
   private lateinit var context: Context
   private var activity : Activity? = null
 
-  override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+  override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "flutter_native_pdf_viewer")
     channel.setMethodCallHandler(this)
     context = flutterPluginBinding.applicationContext
   }
 
-  override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    if (call.method == "openPDF") {
+  override fun onMethodCall(call: MethodCall, result: Result) {
+    if (call.method == "openPdf") {
       val pdfPath = call.argument<String>("path")
       if (pdfPath == null) {
         result.error("INVALID_PATH", "Invalid or missing path: $pdfPath", null)
@@ -53,7 +52,7 @@ class FlutterNativePdfViewerPlugin: FlutterPlugin, MethodCallHandler, ActivityAw
     }
   }
 
-  override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+  override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
     context = binding.applicationContext
   }

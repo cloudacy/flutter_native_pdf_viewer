@@ -1,30 +1,24 @@
 name: flutter_native_pdf_viewer_example
-description: Demonstrates how to use the flutter_native_pdf_viewer plugin.
-
+description: "Demonstrates how to use the flutter_native_pdf_viewer plugin."
 # The following line prevents the package from being accidentally published to
-# pub.dev using `pub publish`. This is preferred for private packages.
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none'
 
 environment:
-  sdk: ">=2.18.0 <3.0.0"
-  flutter: '>=3.3.0'
+  sdk: '>=3.3.2 <4.0.0'
 
 dependencies:
+  cupertino_icons: ^1.0.6
+  file_picker: ^8.0.0+1
   flutter:
     sdk: flutter
-
   flutter_native_pdf_viewer:
     path: ../
-
-  path_provider: ^2.0.1
-
-  http: ^1.1.0
-
-  cupertino_icons: ^1.0.0
-
-  file_picker: ^5.3.2
+  http: ^1.2.1
+  path_provider: ^2.1.2
 
 dev_dependencies:
+  flutter_lints: ^3.0.0
   flutter_test:
     sdk: flutter
 
