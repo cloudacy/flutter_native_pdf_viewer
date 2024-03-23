@@ -5,6 +5,10 @@
 - **BREAKING**: Roll back to android gradle plugin 7.3.0
 - dependency upgrades
 
+### 5.0.1
+
+- README fix
+
 ## 4.0.0
 
 - **BREAKING**: Using android gradle plugin 8.1.1

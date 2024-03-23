@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_native_pdf_viewer'
-  s.version          = '5.0.0'
+  s.version          = '5.0.1'
   s.summary          = 'A lightweight PDF viewer for iOS and Android, using platform-native elements.'
   s.description      = <<-DESC
 A lightweight PDF viewer for iOS and Android, using platform-native elements.
