@@ -50,7 +50,7 @@ class _ExampleWidgetState extends State<ExampleWidget> {
 Add
 
 ```yaml
-flutter_native_pdf_viewer: ^3.0.0
+flutter_native_pdf_viewer: ^5.0.1
 ```
 
 to the `dependencies` section of the `pubspec.yaml` file.
