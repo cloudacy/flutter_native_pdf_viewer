@@ -1,6 +1,6 @@
 # flutter_native_pdf_viewer
 
-A lightweight PDF viewer for iOS (>= 12.0) and Android, using platform-native elements.
+A lightweight PDF viewer for iOS (>= 12.0) and Android (>= SDK 21), using platform-native elements.
 
 ## Example
 

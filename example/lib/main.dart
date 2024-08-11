@@ -24,11 +24,21 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
   final _formKey = GlobalKey<FormState>();
 
   final urlFieldController = TextEditingController();
+  final searchController = FlutterNativePdfViewerSearchController();
+
   Future<String>? pdfFuture;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    urlFieldController.dispose();
+    searchController.dispose();
   }
 
   Future<String> _downloadPdf({
@@ -87,39 +97,39 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    const Text('Enter a PDF URL.'),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: urlFieldController,
+                            decoration: const InputDecoration(labelText: 'PDF URL'),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        ElevatedButton(
+                          onPressed: _submitForm,
+                          child: FutureBuilder(
+                            future: pdfFuture,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState != ConnectionState.none &&
+                                  snapshot.connectionState != ConnectionState.done) {
+                                return const SizedBox(
+                                  width: 16,
+                                  height: 16,
+                                  child: CircularProgressIndicator.adaptive(strokeWidth: 2),
+                                );
+                              }
+
+                              return const Text('view PDF');
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 8),
                     const Text(
-                      'If no URL is provided, a dummy PDF file will be used (https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf).',
+                      'If no URL is provided, "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" will be used.',
                       textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: urlFieldController,
-                      decoration: const InputDecoration(labelText: 'PDF URL'),
-                    ),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: _submitForm,
-                      child: pdfFuture == null
-                          ? const Text('Download and view PDF')
-                          : FutureBuilder(
-                              future: pdfFuture,
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState != ConnectionState.done) {
-                                  return const SizedBox(
-                                    width: 16,
-                                    height: 16,
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                                      strokeWidth: 2,
-                                    ),
-                                  );
-                                }
-
-                                return const Text('Download and view PDF');
-                              },
-                            ),
                     ),
                     const SizedBox(height: 8),
                     const Text('OR'),
@@ -156,9 +166,13 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
                 ),
               ),
             ),
-            if (pdfFuture != null && Platform.isIOS)
+            if (pdfFuture != null && Platform.isIOS) ...[
+              SearchBar(
+                controller: searchController.searchFieldController,
+                leading: const Icon(Icons.search),
+              ),
               Expanded(
-                child: FutureBuilder<String>(
+                child: FutureBuilder(
                   future: pdfFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState != ConnectionState.done) {
@@ -175,10 +189,50 @@ class _FlutterNativePdfViewerAppState extends State<FlutterNativePdfViewerApp> {
 
                     final pdf = snapshot.data!;
 
-                    return FlutterNativePdfViewer(path: pdf);
+                    return FlutterNativePdfViewer(
+                      path: pdf,
+                      searchController: searchController,
+                    );
                   },
                 ),
               ),
+              ValueListenableBuilder(
+                valueListenable: searchController.searchResultSize,
+                builder: (context, searchResultSize, _) {
+                  if (searchResultSize <= 0) {
+                    return const SizedBox();
+                  }
+
+                  return ValueListenableBuilder(
+                    valueListenable: searchController.searchResultIndex,
+                    builder: (context, searchResultIndex, _) {
+                      return Row(
+                        children: [
+                          FilledButton(
+                            onPressed: searchResultIndex > 1
+                                ? () {
+                                    searchController.requestPrevSearchResult();
+                                  }
+                                : null,
+                            child: const Icon(Icons.arrow_left_rounded),
+                          ),
+                          Text('$searchResultIndex/$searchResultSize'),
+                          FilledButton(
+                            onPressed: searchResultIndex < searchResultSize
+                                ? () {
+                                    searchController.requestNextSearchResult();
+                                  }
+                                : null,
+                            child: const Icon(Icons.arrow_right_rounded),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+            const SizedBox(height: 42),
           ],
         ),
       ),

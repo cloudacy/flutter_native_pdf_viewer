@@ -1,7 +1,7 @@
 name: flutter_native_pdf_viewer
 description: A lightweight PDF viewer for iOS and Android, using platform-native elements.
 version: 5.0.1
-homepage: 'https://cloudacy.com/'
+homepage: https://github.com/cloudacy/flutter_native_pdf_viewer
 
 environment:
   sdk: '>=3.3.2 <4.0.0'
@@ -15,7 +15,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 flutter:
   plugin:

@@ -9,7 +9,7 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.6
-  file_picker: ^8.0.0+1
+  file_picker: ^8.0.7
   flutter:
     sdk: flutter
   flutter_native_pdf_viewer:
@@ -18,7 +18,7 @@ dependencies:
   path_provider: ^2.1.2
 
 dev_dependencies:
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
 
