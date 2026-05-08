@@ -1,3 +1,10 @@
+## 6.0.0
+
+- **BREAKING**: SwiftPM support
+  - requires iOS >=13.0
+  - requires dart >=3.11
+  - requires Flutter >=3.41
+
 ## 5.0.0
 
 - **BREAKING**: Set minimum Dart version to 3.3.2
