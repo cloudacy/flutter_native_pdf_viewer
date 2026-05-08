@@ -13,9 +13,9 @@ A lightweight PDF viewer for iOS and Android, using platform-native elements.
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'cloudacy OG' => 'office@cloudacy.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
+  s.source_files     = 'flutter_native_pdf_viewer/Sources/flutter_native_pdf_viewer/**/*.swift'
   s.dependency 'Flutter'
-  s.platform = :ios, '12.0'
+  s.platform = :ios, '13.0'
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
